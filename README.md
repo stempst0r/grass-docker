@@ -31,11 +31,50 @@ docker run -d \
   ghcr.io/stempst0r/grass-docker:latest
 ```
 
-Open your browser and go to: `http://your-host-ip:5800` (or HTTPS if `SECURE_CONNECTION=1`).
+Open your browser and go to: `https://your-host-ip:5800` (or HTTP if `SECURE_CONNECTION=0`).
 
 Log in with the credentials you set (default is `grass/grass` – **always change them in production!**).
 
 Then sign in to your Grass account inside the app to start earning points.
+
+## Comprehensive docker-compse
+
+```yaml
+services:
+  grass-node:
+    image: ghcr.io/stempst0r/grass-docker:latest
+    container_name: grass-node
+    restart: unless-stopped
+    ports:
+      - "5800:5800"   # noVNC web interface
+    environment:
+      # --- noVNC Web Access Security ---
+      SECURE_CONNECTION: "1"                  # 1 = HTTPS (self-signed), 0 = HTTP
+      WEB_AUTHENTICATION: "1"                 # 1 = enable basic auth, 0 = disable
+      WEB_AUTHENTICATION_USERNAME: "myuser"    # change this!
+      WEB_AUTHENTICATION_PASSWORD: "mystrongpassword"  # change this!
+
+      # --- Application Behavior ---
+      KEEP_APP_RUNNING: "1"                   # automatically restart Grass if it crashes
+
+      # --- Non-root User (Security) ---
+      USER_ID: "1000"                         # set to your host user's UID if you need volume access
+      GROUP_ID: "1000"                        # set to your host user's GID
+
+      # --- Optional Display Settings (jlesage/baseimage-gui) ---
+      DISPLAY_WIDTH: "1920"                   # virtual desktop width
+      DISPLAY_HEIGHT: "1080"                  # virtual desktop height
+
+      # --- Optional: Timezone ---
+      TZ: "America/Chicago"                   # adjust to your timezone
+
+    # Optional: persist config
+    volumes:
+      - grass-config:/config
+
+volumes:
+  grass-config:
+```
 
 ## Environment Variables
 
