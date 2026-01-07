@@ -40,6 +40,7 @@ Then sign in to your Grass account inside the app to start earning points.
 ## Comprehensive docker-compse
 
 ```yaml
+---
 services:
   grass-node:
     image: ghcr.io/stempst0r/grass-docker:latest
@@ -51,8 +52,8 @@ services:
       # --- noVNC Web Access Security ---
       SECURE_CONNECTION: "1"                  # 1 = HTTPS (self-signed), 0 = HTTP
       WEB_AUTHENTICATION: "1"                 # 1 = enable basic auth, 0 = disable
-      WEB_AUTHENTICATION_USERNAME: "myuser"    # change this!
-      WEB_AUTHENTICATION_PASSWORD: "mystrongpassword"  # change this!
+      WEB_AUTHENTICATION_USERNAME: "yourusername"    # change this!
+      WEB_AUTHENTICATION_PASSWORD: "yourstrongpassword"  # change this!
 
       # --- Application Behavior ---
       KEEP_APP_RUNNING: "1"                   # automatically restart Grass if it crashes
