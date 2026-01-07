@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - 'v*.*.*'          # Trigger on tags like v6.1.2
-    branches:
-      - main              # Optional: build latest on pushes to main
   workflow_dispatch:      # Allow manual trigger
 
 jobs:
